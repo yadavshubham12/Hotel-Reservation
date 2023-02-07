@@ -1,12 +1,21 @@
 package com.blz.hotelReservation;
 
-public class HotelReservation {
-    public static void main(String[] args) {
-        System.out.println("Welcome to Hotel Reservation Program");
+import java.time.LocalDate;
 
+public class HotelReservation {
+    private static Hotel cheapestHotel;
+
+    public static void main(String[] args) {
         HotelReservationSystem reservationSystem = new HotelReservationSystem();
-        Hotel hotel = new Hotel("Grand Hotel", 200.0);
-        reservationSystem.addHotel(hotel);
-        System.out.println("Hotel added; " + hotel.getName() + "With regular rates " + hotel.getRegularRate());
+        reservationSystem.addHotel(new Hotel("Lakewood", 110, 90));
+        reservationSystem.addHotel(new Hotel("Bridgewood", 160, 60));
+        reservationSystem.addHotel(new Hotel("Ridgewood", 220, 150));
+
+        LocalDate startDate = LocalDate.of(2020, 9, 10);
+        LocalDate endDate = LocalDate.of(2020, 9, 11);
+
+        Hotel cheapestHotel = reservationSystem.findCheapestHotel("Regular", startDate, endDate);
+        System.out.println("Cheapest Hotel: " + cheapestHotel.getName());
+        System.out.println("Total Rates: $" + cheapestHotel.getRate("Regular", startDate) * (endDate.toEpochDay() - startDate.toEpochDay()));
     }
 }
