@@ -1,6 +1,7 @@
 package com.blz.hotelReservation;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class HotelReservation {
 
@@ -10,11 +11,16 @@ public class HotelReservation {
         reservationSystem.addHotel(new Hotel("Bridgewood", 150, 50));
         reservationSystem.addHotel(new Hotel("Ridgewood", 200, 150));
 
-        LocalDate startDate = LocalDate.of(2020, 9, 10);
-        LocalDate endDate = LocalDate.of(2020, 9, 11);
+        LocalDate startDate = LocalDate.of(2020, 9, 11);
+        LocalDate endDate = LocalDate.of(2020, 9, 12);
 
-        Hotel cheapestHotel = reservationSystem.findCheapestHotel(startDate, endDate);
-        System.out.println("Cheapest Hotel: " + cheapestHotel.getName());
-        System.out.println("Total Rates: $" + cheapestHotel.getRate(startDate) * (endDate.toEpochDay() - startDate.toEpochDay()));
+        List<Hotel> cheapestHotels = reservationSystem.findCheapestHotels(startDate, endDate);
+        System.out.print("Cheapest Hotels: ");
+        for (Hotel hotel : cheapestHotels) {
+            System.out.print(hotel.getName() + " ");
+        }
+        System.out.println();
+        System.out.println("Total Rates: $" + cheapestHotels.get(0).getRate(startDate) * (endDate.toEpochDay() - startDate.toEpochDay()));
+
     }
 }

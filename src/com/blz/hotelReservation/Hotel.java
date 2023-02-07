@@ -12,7 +12,6 @@ import java.util.List;
                 this.weekdayRate = weekdayRate;
                 this.weekendRate = weekendRate;
             }
-
             public String getName() {
                 return name;
             }
@@ -26,33 +25,36 @@ import java.util.List;
             }
         }
 
-        class HotelReservationSystem {
-            private List<Hotel> hotels;
+class HotelReservationSystem {
+    private List<Hotel> hotels;
 
-            public HotelReservationSystem() {
-                hotels = new ArrayList<>();
+    public HotelReservationSystem() {
+        hotels = new ArrayList<>();
+    }
+
+    public void addHotel(Hotel hotel) {
+        hotels.add(hotel);
+    }
+
+    public List<Hotel> findCheapestHotels(LocalDate startDate, LocalDate endDate) {
+        List<Hotel> cheapestHotels = new ArrayList<>();
+        double cheapestRate = Double.MAX_VALUE;
+
+        for (Hotel hotel : hotels) {
+            double totalRate = 0.0;
+            for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+                totalRate += hotel.getRate(date);
             }
 
-            public void addHotel(Hotel hotel) {
-                hotels.add(hotel);
-            }
-
-            public Hotel findCheapestHotel(LocalDate startDate, LocalDate endDate) {
-                Hotel cheapestHotel = hotels.get(0);
-                double cheapestRate = Double.MAX_VALUE;
-
-                for (Hotel hotel : hotels) {
-                    double totalRate = 0.0;
-                    for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
-                        totalRate += hotel.getRate(date);
-                    }
-
-                    if (totalRate < cheapestRate) {
-                        cheapestRate = totalRate;
-                        cheapestHotel = hotel;
-                    }
-                }
-
-                return cheapestHotel;
+            if (totalRate < cheapestRate) {
+                cheapestRate = totalRate;
+                cheapestHotels.clear();
+                cheapestHotels.add(hotel);
+            } else if (totalRate == cheapestRate) {
+                cheapestHotels.add(hotel);
             }
         }
+
+        return cheapestHotels;
+    }
+}
